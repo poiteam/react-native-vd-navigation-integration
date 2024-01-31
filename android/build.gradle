@@ -7,6 +7,15 @@ buildscript {
         ndkVersion = "25.1.8937393"
         kotlinVersion = "1.8.0"
     }
+    allprojects {
+        repositories {
+            maven {
+                url "https://jitpack.io"
+                credentials { username = project.properties['JITPACK_TOKEN'] }
+            }
+        }
+    }
+
     repositories {
         google()
         mavenCentral()

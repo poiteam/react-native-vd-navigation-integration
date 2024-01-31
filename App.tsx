@@ -40,6 +40,7 @@ function App(): React.JSX.Element {
       title="Show VdNavigation"
       onPress={() => {
         NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation();
+        //NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation();
       }
       }
     />
