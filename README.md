@@ -1,79 +1,126 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# PoilabsVdNavigation React Native Integration
 
-# Getting Started
+## iOS
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+### INSTALLATION
 
-## Step 1: Start the Metro Server
+To integrate PoilabsVdNavigation into your Xcode project using CocoaPods, specify it in your Podfile. 
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+Also you should enable **use_frameworks!**
 
-To start Metro, run the following command from the _root_ of your React Native project:
+use\_frameworks option should be before use\_react\_native!() function call. It will avoid getting multiple command produce error
 
-```bash
-# using npm
-npm start
+```curl
 
-# OR using Yarn
-yarn start
+use_frameworks!
+.....
+  use_react_native!(
+    .....
+  )
+.....
+pod 'PoilabsVdNavigation'
+
 ```
 
-## Step 2: Start your Application
+### PRE-REQUIREMENTS
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+To Integrate this framework you should add some features to your project info.plist file.
 
-### For Android
++Privacy - Location Usage Description
 
-```bash
-# using npm
-npm run android
++Privacy - Location When In Use Usage Description
 
-# OR using Yarn
-yarn android
++Privacy - Bluetooth Peripheral Usage Description
+
++Privacy - Bluetooth Always Usage Description
+
+### USAGE
+
+Create a Swift file named **PoilabsVdNavigationManager** with content below. This will be your Map View. 
+
+Do not forget change application id and application secret key with those which are given by Poilabs.
+
+```Swift
+import UIKit
+import PoilabsVdNavigationUI
+
+@objc  class PoilabsVdNavigationManager: NSObject  {
+    @objc func showPoilabsVdNavigation() {
+        let appId = "applicationId"
+        let secret = "applicationSecret"
+        let uniqueIdentifier = "UNIQUE_ID"
+    
+        let _ = PoilabsVdNavigationUI(withApplicationID: appId, withApplicationSecret: secret, withUniqueIdentifier: uniqueIdentifier) { controller in
+            DispatchQueue.main.async {
+            let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
+            let topController = keyWindow?.rootViewController
+          topController?.show(controller, sender: self)
+        }
+      }
+    }
+}
+
 ```
 
-### For iOS
+You should create a header file called **PoilabsNavigationBridge.h** and a Objective-C file  called **PoilabsNavigationBridge.m** with content below. 
 
-```bash
-# using npm
-npm run ios
+Do not forget to change **YOUR_PROJECT_NAME** with your project name.
+ 
+```c
+#ifndef PoilabsNavigationBridge_h
+#define PoilabsNavigationBridge_h
 
-# OR using Yarn
-yarn ios
+#import <React/RCTBridgeModule.h>
+
+@interface PoilabsNavigationBridge : NSObject <RCTBridgeModule>
+
+-(void) showPoilabsVdNavigation;
+
+@end
+#endif /* PoilabsNavigationBridge_h */
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+```c
+#import <Foundation/Foundation.h>
+#import "PoilabsNavigationBridge.h"
+#import "YOUR_PROJECT_NAME-Swift.h"
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+@implementation PoilabsNavigationBridge: NSObject
 
-## Step 3: Modifying your App
 
-Now that you have successfully run the app, let's modify it.
+RCT_EXPORT_MODULE(PoilabsNavigationBridge);
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+RCT_EXPORT_METHOD(showPoilabsVdNavigation) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    PoilabsVdNavigationManager* vdManager = [[PoilabsVdNavigationManager alloc] init];
+    [vdManager showPoilabsVdNavigation];
+  });
+}
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+@end
+```
 
-## Congratulations! :tada:
 
-You've successfully run and modified your React Native App. :partying_face:
 
-### Now what?
+## Android
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+### INSTALLATION
 
-# Troubleshooting
+### USAGE
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## React Native
 
-# Learn More
+You should import **NativeModules**
 
-To learn more about React Native, take a look at the following resources:
+### iOS
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+You can start PoilabsVdNavigation with calling bridge method
+
+```js
+NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation();
+```
+
+### Android
+
+
+
