@@ -108,7 +108,7 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
-    implementation 'com.github.poiteam:Android-VD-Navigation-SDK:6.2.7'
+    implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.0.3'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
