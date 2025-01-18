@@ -126,7 +126,7 @@ allprojects {
 ~~~groovy  
   
 dependencies {  
-     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.0.4'  
+     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.0.5'  
  }  
 ~~~ 
 
