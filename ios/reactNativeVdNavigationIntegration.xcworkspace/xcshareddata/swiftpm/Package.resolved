@@ -1,0 +1,42 @@
+{
+  "originHash" : "4b1ea2d0513f5d0e63f8f033da15f0f04ec5f318fa5f913957367af19cbe9886",
+  "pins" : [
+    {
+      "identity" : "ios-positioning-pod",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/poiteam/ios-positioning-pod.git",
+      "state" : {
+        "revision" : "ee243e65fab54656c8ab3c879a5174540f504c88",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "ios-sdk-analytics-pod",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/poiteam/ios-sdk-analytics-pod.git",
+      "state" : {
+        "revision" : "f23d9063ee3766288982f6c6bcccfec76f3b2abb",
+        "version" : "1.0.15"
+      }
+    },
+    {
+      "identity" : "ios-vd-navigation-pod",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/poiteam/ios-vd-navigation-pod.git",
+      "state" : {
+        "revision" : "5f50fc789fa4c3294502093d8a3c32fade0021c4",
+        "version" : "7.2.1"
+      }
+    },
+    {
+      "identity" : "poilabscorepod",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/poiteam/PoilabsCorePod.git",
+      "state" : {
+        "revision" : "e48cb3f28efe879860423f47d581c208e9ce2a4e",
+        "version" : "1.0.15"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -19,7 +19,6 @@ target 'reactNativeVdNavigationIntegration' do
   )
 
   
-  pod 'PoilabsVdNavigation'
 
   target 'reactNativeVdNavigationIntegrationTests' do
     inherit! :complete

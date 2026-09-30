@@ -4,6 +4,23 @@
 
 ### INSTALLATION
 
+#### Swift Package Manager (recommended)
+
+This sample project uses Swift Package Manager.
+
+1. Open `ios/<YOUR_PROJECT_NAME>.xcworkspace` in Xcode.
+2. Select **File > Add Package Dependencies...**
+3. Enter the repository URL: `https://github.com/poiteam/ios-vd-navigation-pod.git`
+4. Choose **Exact Version** `7.2.1` and add the **PoilabsVdNavigation** product to your app target.
+
+PoilabsPositioning, PoilabsSdkAnalytics and PoilabsCore are resolved automatically. Do not add `pod 'PoilabsVdNavigation'` to your Podfile when you use SPM; installing the SDK with both SPM and CocoaPods causes duplicate symbols. If your app also uses PoilabsNavigation via CocoaPods, install PoilabsVdNavigation via CocoaPods as well.
+
+SPM installation is supported from 7.2.1.
+
+> React Native 0.73 build scripts fail when the project path contains spaces. Keep the project in a path without spaces.
+
+#### CocoaPods
+
 To integrate PoilabsVdNavigation into your Xcode project using CocoaPods, specify it in your Podfile. 
 
 Also you should enable **use_frameworks!**
@@ -20,6 +37,12 @@ use_frameworks!
 .....
 pod 'PoilabsVdNavigation'
 
+```
+
+Until 7.2.1 is published on CocoaPods trunk, use the git tag to get it:
+
+```curl
+pod 'PoilabsVdNavigation', :git => 'https://github.com/poiteam/ios-vd-navigation-pod.git', :tag => '7.2.1'
 ```
 
 ### PRE-REQUIREMENTS

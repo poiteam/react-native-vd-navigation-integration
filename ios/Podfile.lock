@@ -11,14 +11,6 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.73.3)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - PoilabsCore (1.0.2)
-  - PoilabsPositioning (1.0.16)
-  - PoilabsSdkAnalytics (1.0.10)
-  - PoilabsVdNavigation (4.4.3):
-    - PoilabsCore (= 1.0.2)
-    - PoilabsPositioning (= 1.0.16)
-    - PoilabsSdkAnalytics (= 1.0.10)
-    - StepSlider
   - RCT-Folly (2022.05.16.00):
     - boost
     - DoubleConversion
@@ -1024,7 +1016,6 @@ PODS:
     - React-logger (= 0.73.3)
     - React-perflogger (= 0.73.3)
   - SocketRocket (0.6.1)
-  - StepSlider (1.8.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1033,7 +1024,6 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - PoilabsVdNavigation
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -1082,12 +1072,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - fmt
-    - PoilabsCore
-    - PoilabsPositioning
-    - PoilabsSdkAnalytics
-    - PoilabsVdNavigation
     - SocketRocket
-    - StepSlider
 
 EXTERNAL SOURCES:
   boost:
@@ -1192,55 +1177,50 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: e47ea8c8f044c25e41a4fa5e8b7ff3923d3e0a94
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
-  PoilabsCore: 324e6c5a6bb6702f57293a54fa14644e93398dab
-  PoilabsPositioning: d5b6ee82b5da99b7d6db63dd357ae40799382616
-  PoilabsSdkAnalytics: 5b936faedb8dcce125e6cbe5a25690c9479bf40e
-  PoilabsVdNavigation: 1978196de91b0598bf490d4b9e369bd6e3072075
-  RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
+  RCT-Folly: cd21f1661364f975ae76b3308167ad66b09f53f5
   RCTRequired: 9b898847f76977a6dfed2a08f4c5ed37add75ec0
   RCTTypeSafety: 0debdc4ba38c8138016d8d8ada4bdf9ec1b8aa82
   React: f8afb04431634ac7e9b876dc96d30af9871f5946
   React-callinvoker: 5ea86c3f93326867aa5114989d229db54d4759d0
-  React-Codegen: 0ed2abf27f26a69702c93cb7e9293253f2d23b85
-  React-Core: 9734a17537f413c1c3ab9be3c58901f467b14c92
-  React-CoreModules: 92fee6d8f4095e151b9678e44fcf0dc8eabeae37
-  React-cxxreact: 6169c468728a286c7d78d3f6f47ea608e7ae3659
+  React-Codegen: 3279c599113451ff91dc8e665324b7a8bc1d651f
+  React-Core: 8a143f8aa468a7aafd10fd18bd2340ade567c125
+  React-CoreModules: b52f9d5ed92e784d1d9e97ec7d1bdf05426aca11
+  React-cxxreact: 60ae06297d6b7f95efbb36dab0a870c971128408
   React-debug: c72219d497f675d547ce34cdc733e7e8fe2a5da3
-  React-Fabric: 22383d0ba83339ca74f0b950cb95b8be474bc3e3
-  React-FabricImage: 3b8d62e3a8191a1614826bff6057841e26a29778
-  React-graphics: 72181d50d637d5b982b6b8b8443390c84ca5147f
-  React-ImageManager: c9486ee6349a68aaa0d946ba65149590593bbd15
+  React-Fabric: c473c3f97414b3841cd7955974f9325ce894cad5
+  React-FabricImage: d2d812fd17b8142f1c799b7ab5b9d450fbd1debb
+  React-graphics: 94b0de84db0f14c63f379afb108beb32bdf34754
+  React-ImageManager: d435e1437bf1e1979cddb29b7daab7cdc149651c
   React-jsc: ba794feba673ce639356ec7573134407185cb8fd
-  React-jserrorhandler: cbc83431c5f91521e4b75efb0b687168080781ee
-  React-jsi: 7f589af8fe7c6fb19e2d03d9936f69f43e3b8cae
-  React-jsiexecutor: 6d0a2b90d305d043b5a3bd1bc235cead13b09293
+  React-jserrorhandler: c3c72fd98257fe99803ebc6aa3483e84876f0b26
+  React-jsi: 95f322b101111b23f8f6ae097dd40305ad1c7f27
+  React-jsiexecutor: 24d393e3dd2b5ca73bf9c45547746f457fb7e2c0
   React-jsinspector: 6fad0fe14882fb6b1c32e5cc8a4bd3d33a8b6790
-  React-logger: cb0dd15ac67b00e7b771ef15203edcb29d4a3f8e
-  React-Mapbuffer: ac7eff7bcdb1716d18eb7b305ee8c43a9a1ed7c8
+  React-logger: 026c4699c71b179283959f13583507a06099fbde
+  React-Mapbuffer: 1733ee5eb07a2ab3b2f41dcdfcce0ed22951948e
   React-nativeconfig: 4662ac75a0a77789c9ed896ed77baa1a25cdf006
-  React-NativeModulesApple: 9d09660123f8f0a8437d9dbee9436aa7267a6a0e
+  React-NativeModulesApple: 337475f6ed61d65bdbc6c2e8b06202a2f4791ec9
   React-perflogger: 27ccacf853ba725524ef2b4e444f14e34d0837b0
   React-RCTActionSheet: 77dd6a2a5cfab9e85b7f1add0f7e2e9cd697d936
-  React-RCTAnimation: 977a25a4e8007ecc90e556abcceb1b25602eea7c
-  React-RCTAppDelegate: c6ef1f902b82bfb9fd3219c0796b4e280bf86273
-  React-RCTBlob: 988af777ab40b2119a79aadaffbcf4dd00625412
-  React-RCTFabric: 30b0540c1009ab1da9d435e39550e9e578d2ebe9
-  React-RCTImage: b1eac9526111cf7e37c304f94e81b76a5ae6a984
-  React-RCTLinking: d7f7dc665af6442ff38e18e34308da7865347bb1
-  React-RCTNetwork: c2c1df3a3c838e9547259e3638f6b290aebb3b72
-  React-RCTSettings: f3074b14047a57fa95499c28fb89028a894d3c18
-  React-RCTText: 9d48b2bbce5e1ed9c4d9514414dc6d99731d1b0a
-  React-RCTVibration: 394ea84082b08b5b3c211dc2bc9c0c4c163e7f23
-  React-rendererdebug: 5fb3c0f487cf77a9c87e6f8c3db21b996b669571
+  React-RCTAnimation: ba12c9c61312942267e6bed99d8dcc09f7df83cd
+  React-RCTAppDelegate: 52c685052fac2da31210cb94c09e51ca56af89e0
+  React-RCTBlob: 9bd54018c773abc229128609c92f3e90db82749a
+  React-RCTFabric: 93c4510e042ce4a5b92fbac3aa640cf59e53baeb
+  React-RCTImage: 97127bf61b00f36fa67ba1a8c175151c1761465f
+  React-RCTLinking: 6d65395b1b070d02a045c829ca6d903b1582319b
+  React-RCTNetwork: 7a36665387f0fd385c25238cc9d2c03636bbae75
+  React-RCTSettings: 951ab88b1a16bd44d50b9bd298b48a42fb26d4f5
+  React-RCTText: ff819f4216c2874d68938022976b0d61897f3539
+  React-RCTVibration: b8ec1565a7e57619adec38b018de1e3e6054b04a
+  React-rendererdebug: 86670a6f9f9629dcd07ef64098eb0fc3a97e9272
   React-rncore: b0c74232b928abb85635fe9d4fbc2d8aba2cdf13
   React-runtimeexecutor: 7e71a40def8262ef7d82a1145d873ea61b1a27b5
-  React-runtimescheduler: a1aeda15ab4a30cbe5d1d289be97d7ac8316ffcc
-  React-utils: 2d25ca0a6e635c095bc5e67ac1202c7939ec4af3
-  ReactCommon: 321c89f8921dc02ef1284119712ea1b9e5657580
+  React-runtimescheduler: 2fa7538a37cb144d74bd3958fe0112040e12ee24
+  React-utils: 2d7acc34d7190309e05ef44936dc9398e036fc08
+  ReactCommon: d704f5fad8f3748b83ab5797e83adb8c3573de65
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  StepSlider: 890db727e779fa99cb32afffc5887c1109e151f4
   Yoga: ff0382b894475dba0b4d2a5fda860bfee5a9afad
 
-PODFILE CHECKSUM: c56c7b1bbece42d30f35b5f8ccb5aec93fc97256
+PODFILE CHECKSUM: 18da198ba343642ca83c75bf8b6602754d7ad744
 
-COCOAPODS: 1.15.0
+COCOAPODS: 1.16.2

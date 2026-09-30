@@ -12,6 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		60F7838B9D26D201CEA5E9A1 /* Pods_reactNativeVdNavigationIntegration_reactNativeVdNavigationIntegrationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15849667F321C1E2DB09C470 /* Pods_reactNativeVdNavigationIntegration_reactNativeVdNavigationIntegrationTests.framework */; };
+		699C32DB377C95A48A0EED20 /* PoilabsVdNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 57DF2C762B22D8042EC4E76F /* PoilabsVdNavigation */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		AF22F1B12B6A15F10041CE41 /* PoilabsVdNavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF22F1B02B6A15F10041CE41 /* PoilabsVdNavigationManager.swift */; };
 		AF22F1B42B6A29EC0041CE41 /* PoilabsNavigationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AF22F1B32B6A16DF0041CE41 /* PoilabsNavigationBridge.m */; };
@@ -66,6 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B33DF63CEA66227613D51D4F /* Pods_reactNativeVdNavigationIntegration.framework in Frameworks */,
+				699C32DB377C95A48A0EED20 /* PoilabsVdNavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +172,6 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				800D7EDA99BD27CB7CFBEB74 /* [CP] Embed Pods Frameworks */,
-				213D37F0D9028A1588384537 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -192,13 +193,15 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C542A4155C365DCFA0226FAA /* [CP] Embed Pods Frameworks */,
-				DFED73D2E25A020A043BF3D6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = reactNativeVdNavigationIntegration;
+			packageProductDependencies = (
+				57DF2C762B22D8042EC4E76F /* PoilabsVdNavigation */,
+			);
 			productName = reactNativeVdNavigationIntegration;
 			productReference = 13B07F961A680F5B00A75B9A /* reactNativeVdNavigationIntegration.app */;
 			productType = "com.apple.product-type.application";
@@ -229,6 +232,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				BEBDD01BBA20079DBBB4F9EC /* XCRemoteSwiftPackageReference "ios-vd-navigation-pod" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -274,23 +280,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
-		};
-		213D37F0D9028A1588384537 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration-reactNativeVdNavigationIntegrationTests/Pods-reactNativeVdNavigationIntegration-reactNativeVdNavigationIntegrationTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration-reactNativeVdNavigationIntegrationTests/Pods-reactNativeVdNavigationIntegration-reactNativeVdNavigationIntegrationTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration-reactNativeVdNavigationIntegrationTests/Pods-reactNativeVdNavigationIntegration-reactNativeVdNavigationIntegrationTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		344271A8E382E4AB5A1E0015 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -368,23 +357,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration/Pods-reactNativeVdNavigationIntegration-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DFED73D2E25A020A043BF3D6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration/Pods-reactNativeVdNavigationIntegration-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration/Pods-reactNativeVdNavigationIntegration-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reactNativeVdNavigationIntegration/Pods-reactNativeVdNavigationIntegration-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -609,7 +581,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = false;
@@ -688,7 +663,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = false;
@@ -727,6 +705,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BEBDD01BBA20079DBBB4F9EC /* XCRemoteSwiftPackageReference "ios-vd-navigation-pod" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/poiteam/ios-vd-navigation-pod.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		57DF2C762B22D8042EC4E76F /* PoilabsVdNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BEBDD01BBA20079DBBB4F9EC /* XCRemoteSwiftPackageReference "ios-vd-navigation-pod" */;
+			productName = PoilabsVdNavigation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }
