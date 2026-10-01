@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/poiteam/ios-vd-navigation-pod.git",
       "state" : {
-        "revision" : "5f50fc789fa4c3294502093d8a3c32fade0021c4",
-        "version" : "7.2.1"
+        "revision" : "56660e66f59ca5dcbd55535690de4ce7bbeb8f9c",
+        "version" : "7.2.2"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/poiteam/PoilabsCorePod.git",
       "state" : {
-        "revision" : "e48cb3f28efe879860423f47d581c208e9ce2a4e",
-        "version" : "1.0.15"
+        "revision" : "d0df3fb1ff93da23921ee4ab9f9adfc50841e432",
+        "version" : "1.0.17"
       }
     }
   ],

@@ -712,7 +712,7 @@
 			repositoryURL = "https://github.com/poiteam/ios-vd-navigation-pod.git";
 			requirement = {
 				kind = exactVersion;
-				version = 7.2.1;
+				version = 7.2.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
