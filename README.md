@@ -4,7 +4,9 @@
 
 ### INSTALLATION
 
-#### Swift Package Manager (recommended)
+PoilabsVdNavigation is distributed with Swift Package Manager. CocoaPods is no longer supported for the SDK (your React Native Podfile stays as it is for React Native's own pods).
+
+#### Swift Package Manager
 
 This sample project uses Swift Package Manager.
 
@@ -13,38 +15,11 @@ This sample project uses Swift Package Manager.
 3. Enter the repository URL: `https://github.com/poiteam/ios-vd-navigation-pod.git`
 4. Choose **Exact Version** `7.2.2` and add the **PoilabsVdNavigation** product to your app target.
 
-PoilabsPositioning, PoilabsSdkAnalytics and PoilabsCore are resolved automatically. Do not add `pod 'PoilabsVdNavigation'` to your Podfile when you use SPM; installing the SDK with both SPM and CocoaPods causes duplicate symbols. If your app also uses PoilabsNavigation via CocoaPods, install PoilabsVdNavigation via CocoaPods as well.
+PoilabsPositioning, PoilabsSdkAnalytics and PoilabsCore are resolved automatically. Do not add `pod 'PoilabsVdNavigation'` to your Podfile; installing the SDK with both SPM and CocoaPods causes duplicate symbols. If your Podfile already has it, remove it (together with any `PoilabsCore`, `PoilabsPositioning` or `PoilabsSdkAnalytics` lines) and run `pod install`.
 
 SPM installation is supported from 7.2.1.
 
 > React Native 0.73 build scripts fail when the project path contains spaces. Keep the project in a path without spaces.
-
-#### CocoaPods
-
-To integrate PoilabsVdNavigation into your Xcode project using CocoaPods, specify it in your Podfile. 
-
-Also you should enable **use_frameworks!**
-
-use\_frameworks option should be before use\_react\_native!() function call. It will avoid getting multiple command produce error
-
-```curl
-
-use_frameworks!
-.....
-  use_react_native!(
-    .....
-  )
-.....
-pod 'PoilabsVdNavigation'
-
-```
-
-PoilabsVdNavigation is no longer updated on CocoaPods trunk (the latest version there is 7.1.0). Swift Package Manager is the recommended installation method. To use a newer version with CocoaPods, install it and PoilabsCore from their git tags (PoilabsCore 1.0.17 is not on trunk):
-
-```curl
-pod 'PoilabsVdNavigation', :git => 'https://github.com/poiteam/ios-vd-navigation-pod.git', :tag => '7.2.2'
-pod 'PoilabsCore', :git => 'https://github.com/poiteam/PoilabsCorePod.git', :tag => '1.0.17'
-```
 
 ### PRE-REQUIREMENTS
 
