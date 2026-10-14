@@ -1,5 +1,13 @@
 # PoilabsVdNavigation React Native Integration
 
+| | iOS | Android |
+|---|---|---|
+| PoilabsVdNavigation | 7.2.2 | 7.1.0 |
+| Minimum OS | iOS 12.0 | Android 5.0 (API 21) |
+| Installation | Swift Package Manager | Gradle (JitPack) |
+
+Supported languages: `en`, `tr`, `hr`, `de`, `ar`, `pl`.
+
 ## iOS
 
 ### INSTALLATION
@@ -35,30 +43,37 @@ To Integrate this framework you should add some features to your project info.pl
 
 ### USAGE
 
-Create a Swift file named **PoilabsVdNavigationManager** with content below. This will be your Map View. 
+Create a Swift file named **PoilabsVdNavigationManager** with content below. It starts the SDK and presents its screen.
 
-Do not forget change application id and application secret key with those which are given by Poilabs.
+Replace `APPLICATION_ID` and `APPLICATION_SECRET_KEY` with the values provided by Poilabs. `UNIQUE_ID` must be unique for every app user.
+
+The initializer returns the SDK's view controller in its completion handler. Keep a reference to the `PoilabsVdNavigationUI` instance while the SDK screen is open; the shared manager below does that.
 
 ```Swift
 import UIKit
 import PoilabsVdNavigationUI
 
-@objc  class PoilabsVdNavigationManager: NSObject  {
+@objc class PoilabsVdNavigationManager: NSObject {
+    @objc static let shared = PoilabsVdNavigationManager()
+
+    private var poilabsVdNavigation: PoilabsVdNavigationUI?
+
     @objc func showPoilabsVdNavigation() {
-        let appId = "applicationId"
-        let secret = "applicationSecret"
-        let uniqueIdentifier = "UNIQUE_ID"
-    
-        let _ = PoilabsVdNavigationUI(withApplicationID: appId, withApplicationSecret: secret, withUniqueIdentifier: uniqueIdentifier) { controller in
+        poilabsVdNavigation = PoilabsVdNavigationUI(withApplicationID: "APPLICATION_ID",
+                                                    withApplicationSecret: "APPLICATION_SECRET_KEY",
+                                                    withUniqueIdentifier: "UNIQUE_ID") { controller in
             DispatchQueue.main.async {
-            let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
-            let topController = keyWindow?.rootViewController
-          topController?.show(controller, sender: self)
+                let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
+                var topController = keyWindow?.rootViewController
+                while let presented = topController?.presentedViewController {
+                    topController = presented
+                }
+                controller.modalPresentationStyle = .fullScreen
+                topController?.present(controller, animated: true)
+            }
         }
-      }
     }
 }
-
 ```
 
 You should create a header file called **PoilabsNavigationBridge.h** and a Objective-C file  called **PoilabsNavigationBridge.m** with content below. 
@@ -91,8 +106,7 @@ RCT_EXPORT_MODULE(PoilabsNavigationBridge);
 
 RCT_EXPORT_METHOD(showPoilabsVdNavigation) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    PoilabsVdNavigationManager* vdManager = [[PoilabsVdNavigationManager alloc] init];
-    [vdManager showPoilabsVdNavigation];
+    [PoilabsVdNavigationManager.shared showPoilabsVdNavigation];
   });
 }
 
@@ -106,8 +120,9 @@ RCT_EXPORT_METHOD(showPoilabsVdNavigation) {
 You can download our SDK via Gradle with following below steps
 
 
-*  Add jitpack and mapbox dependency to your project level build.gradle file with their tokens.
-   **JITPACK_TOKEN** is a token that PoiLabs will provide for you it will allow you to download our sdk.
+*  Add the JitPack repository to your project level build.gradle file.
+   **JITPACK_TOKEN** is a token that PoiLabs will provide for you; it allows you to download our SDK.
+   Since 7.0.7 the SDK no longer uses Mapbox, so the Mapbox repository and token are not needed.
 
 ~~~groovy  
 allprojects {  
@@ -125,7 +140,7 @@ allprojects {
 ~~~groovy  
   
 dependencies {  
-     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.0.6'  
+     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.1.0'
  }  
 ~~~ 
 
@@ -198,10 +213,11 @@ class PoilabsNavigationBridge internal constructor(context: ReactApplicationCont
                 context = activity.baseContext,
                 appId = "APPLICATION_ID",
                 secret = "APPLICATION_SECRET_KEY",
-                language = "en",
+                language = "en", // en, tr, hr, de, ar, pl
                 title = "PLACE_TITLE",
                 vdResponseListener = object : VDResponseListener {
                     override fun onSuccess() {
+                        PoiManager.setUniqueId("UNIQUE_ID")
                         Intent(activity.applicationContext, PoiVdNavigationActivity::class.java).also {
                             activity.startActivity(it)
                         }

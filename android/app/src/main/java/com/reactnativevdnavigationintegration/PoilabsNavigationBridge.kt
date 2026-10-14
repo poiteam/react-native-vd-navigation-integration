@@ -24,6 +24,7 @@ class PoilabsNavigationBridge internal constructor(context: ReactApplicationCont
                 title = "PLACE_TITLE",
                 vdResponseListener = object : VDResponseListener {
                     override fun onSuccess() {
+                        PoiManager.setUniqueId("UNIQUE_ID")
                         Intent(activity.applicationContext, PoiVdNavigationActivity::class.java).also {
                             activity.startActivity(it)
                         }

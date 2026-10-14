@@ -8,18 +8,25 @@
 import UIKit
 import PoilabsVdNavigationUI
 
-@objc  class PoilabsVdNavigationManager: NSObject  {
+@objc class PoilabsVdNavigationManager: NSObject {
+    @objc static let shared = PoilabsVdNavigationManager()
+
+    // Keep a reference while the SDK screen is open.
+    private var poilabsVdNavigation: PoilabsVdNavigationUI?
+
     @objc func showPoilabsVdNavigation() {
-        let appId = "applicationId"
-        let secret = "applicationSecret"
-        let uniqueIdentifier = "UNIQUE_ID"
-    
-        let _ = PoilabsVdNavigationUI(withApplicationID: appId, withApplicationSecret: secret, withUniqueIdentifier: uniqueIdentifier) { controller in
+        poilabsVdNavigation = PoilabsVdNavigationUI(withApplicationID: "applicationId",
+                                                    withApplicationSecret: "applicationSecret",
+                                                    withUniqueIdentifier: "UNIQUE_ID") { controller in
             DispatchQueue.main.async {
-            let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
-            let topController = keyWindow?.rootViewController
-          topController?.show(controller, sender: self)
+                let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
+                var topController = keyWindow?.rootViewController
+                while let presented = topController?.presentedViewController {
+                    topController = presented
+                }
+                controller.modalPresentationStyle = .fullScreen
+                topController?.present(controller, animated: true)
+            }
         }
-      }
     }
 }

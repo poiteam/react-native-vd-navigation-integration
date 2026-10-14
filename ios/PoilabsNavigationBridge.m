@@ -16,8 +16,7 @@ RCT_EXPORT_MODULE(PoilabsNavigationBridge);
 
 RCT_EXPORT_METHOD(showPoilabsVdNavigation) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    PoilabsVdNavigationManager* vdManager = [[PoilabsVdNavigationManager alloc] init];
-    [vdManager showPoilabsVdNavigation];
+    [PoilabsVdNavigationManager.shared showPoilabsVdNavigation];
   });
 }
 
