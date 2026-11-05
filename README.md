@@ -2,11 +2,13 @@
 
 | | iOS | Android |
 |---|---|---|
-| PoilabsVdNavigation | 7.2.2 | 7.1.0 |
+| PoilabsVdNavigation | 7.3.0 | 7.3.0 |
 | Minimum OS | iOS 12.0 | Android 5.0 (API 21) |
 | Installation | Swift Package Manager | Gradle (JitPack) |
 
 Supported languages: `en`, `tr`, `hr`, `de`, `ar`, `pl`.
+
+If your application has more than one venue, you can open one of them directly; see [Opening a specific venue (placeId)](#opening-a-specific-venue-placeid).
 
 ## iOS
 
@@ -21,7 +23,7 @@ This sample project uses Swift Package Manager.
 1. Open `ios/<YOUR_PROJECT_NAME>.xcworkspace` in Xcode.
 2. Select **File > Add Package Dependencies...**
 3. Enter the repository URL: `https://github.com/poiteam/ios-vd-navigation-pod.git`
-4. Choose **Exact Version** `7.2.2` and add the **PoilabsVdNavigation** product to your app target.
+4. Choose **Exact Version** `7.3.0` and add the **PoilabsVdNavigation** product to your app target.
 
 PoilabsPositioning, PoilabsSdkAnalytics and PoilabsCore are resolved automatically. Do not add `pod 'PoilabsVdNavigation'` to your Podfile; installing the SDK with both SPM and CocoaPods causes duplicate symbols. If your Podfile already has it, remove it (together with any `PoilabsCore`, `PoilabsPositioning` or `PoilabsSdkAnalytics` lines) and run `pod install`.
 
@@ -58,10 +60,12 @@ import PoilabsVdNavigationUI
 
     private var poilabsVdNavigation: PoilabsVdNavigationUI?
 
-    @objc func showPoilabsVdNavigation() {
+    /// placeId is optional: nil or empty opens the venue list.
+    @objc func showPoilabsVdNavigation(placeId: String?) {
         poilabsVdNavigation = PoilabsVdNavigationUI(withApplicationID: "APPLICATION_ID",
                                                     withApplicationSecret: "APPLICATION_SECRET_KEY",
-                                                    withUniqueIdentifier: "UNIQUE_ID") { controller in
+                                                    withUniqueIdentifier: "UNIQUE_ID",
+                                                    placeId: placeId) { controller in
             DispatchQueue.main.async {
                 let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
                 var topController = keyWindow?.rootViewController
@@ -88,7 +92,7 @@ Do not forget to change **YOUR_PROJECT_NAME** with your project name.
 
 @interface PoilabsNavigationBridge : NSObject <RCTBridgeModule>
 
--(void) showPoilabsVdNavigation;
+-(void) showPoilabsVdNavigation:(NSString *)placeId;
 
 @end
 #endif /* PoilabsNavigationBridge_h */
@@ -104,9 +108,9 @@ Do not forget to change **YOUR_PROJECT_NAME** with your project name.
 
 RCT_EXPORT_MODULE(PoilabsNavigationBridge);
 
-RCT_EXPORT_METHOD(showPoilabsVdNavigation) {
+RCT_EXPORT_METHOD(showPoilabsVdNavigation:(NSString *)placeId) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [PoilabsVdNavigationManager.shared showPoilabsVdNavigation];
+    [PoilabsVdNavigationManager.shared showPoilabsVdNavigationWithPlaceId:placeId];
   });
 }
 
@@ -140,7 +144,7 @@ allprojects {
 ~~~groovy  
   
 dependencies {  
-     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.1.0'
+     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.3.0'
  }  
 ~~~ 
 
@@ -206,8 +210,9 @@ class PoilabsNavigationBridge internal constructor(context: ReactApplicationCont
     override fun getName(): String {
         return "PoilabsNavigationBridge"
     }
+    // placeId is optional: null or empty opens the venue list.
     @ReactMethod
-    fun showPoilabsVdNavigation() {
+    fun showPoilabsVdNavigation(placeId: String?) {
         currentActivity?.let { activity ->
             PoiManager.init(
                 context = activity.baseContext,
@@ -225,7 +230,8 @@ class PoilabsNavigationBridge internal constructor(context: ReactApplicationCont
                     override fun onFail(throwable: Throwable?) {
 
                     }
-                })
+                },
+                placeId = placeId)
         }
     }
 }
@@ -252,10 +258,51 @@ import {
   NativeModules,
 } from 'react-native';
 ```
-You can start PoilabsVdNavigation with calling bridge method
+You can start PoilabsVdNavigation with calling bridge method. Pass `null` to open the venue list:
 
 ```js
-NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation();
+NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation(null);
+```
+
+## Opening a specific venue (placeId)
+
+Normally the SDK opens with the venue list of your application. If you want to open one venue directly, pass its `placeId` to the bridge method. The SDK then skips the venue list and opens that venue's store list as the first screen.
+
+```js
+NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation('PLACE_ID');
+```
+
+- The `placeId` must be one of the venues of your application: a venue in its venue list, or a venue listed under one of them. Ask PoiLabs for the `placeId` values of your venues.
+- If you pass `null`, an empty string or a `placeId` that is not one of your venues, the SDK opens as before (the venue list). For an unknown `placeId` the SDK writes a warning to the native log.
+- Always pass the argument: React Native bridge methods must be called with every parameter, so use `null` when you do not want a specific venue.
+- `placeId` needs **PoilabsVdNavigation 7.3.0** on both platforms (the native code above already passes it to the SDK).
+- To open another venue, close the SDK screen and call `showPoilabsVdNavigation` again with the other `placeId`.
+
+Example: a button for each venue.
+
+```js
+import React from 'react';
+import { Button, NativeModules, View } from 'react-native';
+
+const VENUES = [
+  { title: 'All venues', placeId: null },   // null → the venue list
+  { title: 'Venue A', placeId: 'PLACE_ID_A' },
+  { title: 'Venue B', placeId: 'PLACE_ID_B' },
+];
+
+export default function VenueButtons() {
+  return (
+    <View>
+      {VENUES.map(venue => (
+        <Button
+          key={venue.title}
+          title={venue.title}
+          onPress={() => NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation(venue.placeId)}
+        />
+      ))}
+    </View>
+  );
+}
 ```
 
 
