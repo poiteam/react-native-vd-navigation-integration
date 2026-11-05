@@ -55,7 +55,7 @@ The initializer returns the SDK's view controller in its completion handler. Kee
 import UIKit
 import PoilabsVdNavigationUI
 
-@objc class PoilabsVdNavigationManager: NSObject, PoilabsVdNavigationDelegate {
+@objc class PoilabsVdNavigationManager: NSObject {
     @objc static let shared = PoilabsVdNavigationManager()
 
     private var poilabsVdNavigation: PoilabsVdNavigationUI?
@@ -65,10 +65,6 @@ import PoilabsVdNavigationUI
         poilabsVdNavigation = PoilabsVdNavigationUI(withApplicationID: "APPLICATION_ID",
                                                     withApplicationSecret: "APPLICATION_SECRET_KEY",
                                                     withUniqueIdentifier: "UNIQUE_ID",
-                                                    // The SDK screen has no close button of its own; the SDK shows
-                                                    // this one on its first screen and calls the delegate below.
-                                                    additionalButton: AdditionalButton(icon: UIImage(systemName: "xmark") ?? UIImage(),
-                                                                                       title: "Close"),
                                                     placeId: placeId) { controller in
             DispatchQueue.main.async {
                 let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
@@ -80,14 +76,6 @@ import PoilabsVdNavigationUI
                 topController?.present(controller, animated: true)
             }
         }
-        poilabsVdNavigation?.delegate = self
-    }
-
-    // Called when the "Close" button is tapped: dismiss the SDK screen.
-    func poilabsVdNavigationDidTapOnAdditionalButton() {
-        let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
-        keyWindow?.rootViewController?.dismiss(animated: true)
-        poilabsVdNavigation = nil
     }
 }
 ```
@@ -208,7 +196,6 @@ android.jetifier.ignorelist=react-android,hermes-android
      })
      ~~~
 
-* The SDK screen closes with the back button. To show a close button as well, pass `navigationButton = NavigationButton("Close", R.drawable.ic_close, object : NavButtonClickCallback { override fun onClick() { activity.finishActivity(VD_REQUEST_CODE) } })` to `PoiManager.init` and start `PoiVdNavigationActivity` with `startActivityForResult(intent, VD_REQUEST_CODE)`. The SDK shows the icon in its toolbar and uses the text for TalkBack.
 
 # Prerequirements
 
