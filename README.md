@@ -55,7 +55,7 @@ The initializer returns the SDK's view controller in its completion handler. Kee
 import UIKit
 import PoilabsVdNavigationUI
 
-@objc class PoilabsVdNavigationManager: NSObject {
+@objc class PoilabsVdNavigationManager: NSObject, PoilabsVdNavigationDelegate {
     @objc static let shared = PoilabsVdNavigationManager()
 
     private var poilabsVdNavigation: PoilabsVdNavigationUI?
@@ -65,6 +65,10 @@ import PoilabsVdNavigationUI
         poilabsVdNavigation = PoilabsVdNavigationUI(withApplicationID: "APPLICATION_ID",
                                                     withApplicationSecret: "APPLICATION_SECRET_KEY",
                                                     withUniqueIdentifier: "UNIQUE_ID",
+                                                    // The SDK screen has no close button of its own; the SDK shows
+                                                    // this one on its first screen and calls the delegate below.
+                                                    additionalButton: AdditionalButton(icon: UIImage(systemName: "xmark") ?? UIImage(),
+                                                                                       title: "Close"),
                                                     placeId: placeId) { controller in
             DispatchQueue.main.async {
                 let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
@@ -76,6 +80,14 @@ import PoilabsVdNavigationUI
                 topController?.present(controller, animated: true)
             }
         }
+        poilabsVdNavigation?.delegate = self
+    }
+
+    // Called when the "Close" button is tapped: dismiss the SDK screen.
+    func poilabsVdNavigationDidTapOnAdditionalButton() {
+        let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
+        keyWindow?.rootViewController?.dismiss(animated: true)
+        poilabsVdNavigation = nil
     }
 }
 ```
@@ -147,6 +159,56 @@ dependencies {
      implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.3.0'
  }  
 ~~~ 
+
+* The SDK still depends on some old `com.android.support` libraries. Enable Jetifier in `android/gradle.properties`, otherwise the build fails with `Duplicate class android.support.v4...`. Skipping React Native's own libraries keeps Jetifier fast:
+
+~~~properties
+android.enableJetifier=true
+android.jetifier.ignorelist=react-android,hermes-android
+~~~
+
+* React Native's template sets `android:usesCleartextTraffic` in `AndroidManifest.xml`. Keep your value with `tools:replace="android:usesCleartextTraffic"` on `<application>` (add `xmlns:tools="http://schemas.android.com/tools"` to `<manifest>`); otherwise the release build fails with `Manifest merger failed : Attribute application@usesCleartextTraffic`.
+
+* React Native 0.80 and later target Android 15+ (targetSdk 35/36). Two things are needed for the SDK screen:
+
+  1. **Back button:** Android 16 uses predictive back for apps targeting 36 and no longer calls the SDK screen's `onBackPressed()`; back then leaves an empty page. Keep the old back handling for the SDK screen in `android/app/src/main/AndroidManifest.xml`:
+
+     ~~~xml
+     <application ...>
+         <activity
+             android:name="com.getpoi.android_vd_nav_ui.view.PoiVdNavigationActivity"
+             android:enableOnBackInvokedCallback="false"
+             tools:node="merge"
+             tools:targetApi="33" />
+     </application>
+     ~~~
+
+  2. **Status bar:** Android 15 draws every activity edge-to-edge, and the SDK toolbar is drawn under the status bar. Give the SDK screen the system bar sizes as padding, for example in `MainApplication.onCreate()`:
+
+     ~~~kotlin
+     registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+         override fun onActivityStarted(activity: Activity) {
+             if (activity !is PoiVdNavigationActivity) return
+             val content = activity.findViewById<View>(android.R.id.content)
+             ViewCompat.setOnApplyWindowInsetsListener(content) { view, insets ->
+                 val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+                 view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+                 insets
+             }
+             ViewCompat.requestApplyInsets(content)
+             // Dark status bar icons on the light background
+             WindowCompat.getInsetsController(activity.window, activity.window.decorView).isAppearanceLightStatusBars = true
+         }
+         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+         override fun onActivityResumed(activity: Activity) {}
+         override fun onActivityPaused(activity: Activity) {}
+         override fun onActivityStopped(activity: Activity) {}
+         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+         override fun onActivityDestroyed(activity: Activity) {}
+     })
+     ~~~
+
+* The SDK screen closes with the back button. To show a close button as well, pass `navigationButton = NavigationButton("Close", R.drawable.ic_close, object : NavButtonClickCallback { override fun onClick() { activity.finishActivity(VD_REQUEST_CODE) } })` to `PoiManager.init` and start `PoiVdNavigationActivity` with `startActivityForResult(intent, VD_REQUEST_CODE)`. The SDK shows the icon in its toolbar and uses the text for TalkBack.
 
 # Prerequirements
 
@@ -277,6 +339,10 @@ NativeModules.PoilabsNavigationBridge.showPoilabsVdNavigation('PLACE_ID');
 - Always pass the argument: React Native bridge methods must be called with every parameter, so use `null` when you do not want a specific venue.
 - `placeId` needs **PoilabsVdNavigation 7.3.0** on both platforms (the native code above already passes it to the SDK).
 - To open another venue, close the SDK screen and call `showPoilabsVdNavigation` again with the other `placeId`.
+
+## Using together with the PoiLabs Navigation SDK
+
+Both SDKs use the same positioning and Bluetooth scanning. Do not keep both open at the same time: remove the Navigation map before you call `showPoilabsVdNavigation`, and show it again after the VD screen is closed.
 
 Example: a button for each venue.
 
