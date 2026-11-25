@@ -2,7 +2,7 @@
 
 | | iOS | Android |
 |---|---|---|
-| PoilabsVdNavigation | 7.3.0 | 7.3.0 |
+| PoilabsVdNavigation | 7.3.0 | 7.4.0 |
 | Minimum OS | iOS 12.0 | Android 5.0 (API 21) |
 | Installation | Swift Package Manager | Gradle (JitPack) |
 
@@ -144,7 +144,7 @@ allprojects {
 ~~~groovy  
   
 dependencies {  
-     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.3.0'
+     implementation 'com.github.poiteam:Android-VD-Navigation-SDK:7.4.0'
  }  
 ~~~ 
 
